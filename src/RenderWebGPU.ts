@@ -84,7 +84,7 @@ export class RenderWebGPU {
     const renderPass = commandEncoder.beginRenderPass({
       colorAttachments: [{
         view,
-        loadValue: { r: 0, g: 0, b: 0, a: 1 },
+        loadValue: { r: 1, g: 1, b: 1, a: 1 },
         storeOp: 'store'
       }]
     });
