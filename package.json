@@ -2,7 +2,8 @@
   "name": "scratch-render-webgpu",
   "version": "1.0.0",
   "description": "Scratch-Render ported to run on WebGPU",
-  "main": "index.js",
+  "main": "build/RenderWebGPU.js",
+  "module": "src/RenderWebGPU.ts",
   "scripts": {
     "start": "tsc --watch"
   },
