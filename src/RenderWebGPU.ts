@@ -110,55 +110,8 @@ export class RenderWebGPU {
     // and end it
     renderPass.endPass();
     this._device.queue.submit([commandEncoder.finish()]);
-    
-    // draw all the drawables now
-    //this.draw_drawables(this.drawables);
 
   }
-
-  /**
-   * Does draws after the initial, drawing on top
-   */
-  /*draw_drawables (drawables: Drawable[]) {
-
-    const view = this._surface?.getCurrentTexture().createView();
-
-    if (view === undefined) throw "Failed to create a view";
-    if (this._device === undefined) throw "Never initialized device";
-
-    // start the render pass
-    const commandEncoder = this._device.createCommandEncoder();
-    const renderPass = commandEncoder.beginRenderPass({
-      colorAttachments: [{
-        view,
-        loadValue: 'load',
-        storeOp: 'store'
-      }]
-    });
-
-    drawables.forEach((sprite: Drawable) => {
-
-      // make sure all the required properties are there
-      if (sprite.pipeline && sprite.bindGroup && sprite.vertexBuffer) {
-
-        // update the uniforms for the sprite
-        sprite.writeToUniforms(this);
-
-        // attach and render out the sprite
-        renderPass.setPipeline(sprite.pipeline);
-        renderPass.setBindGroup(0, sprite.bindGroup);
-        renderPass.setVertexBuffer(0, sprite.vertexBuffer);
-        renderPass.draw(6, 1);
-
-      }
-
-    });
-
-    // and end it
-    renderPass.endPass();
-    this._device.queue.submit([commandEncoder.finish()]);
-
-  }*/
 
 }
 
