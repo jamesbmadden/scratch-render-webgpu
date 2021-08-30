@@ -5,17 +5,18 @@ const shaderSource = `struct VertexOutput {
 
 [[block]]
 struct Uniforms {
-  skinID: f32,
-  position: vec2<f32>,
-  direction: f32,
-  scale: vec2<f32>,
-  color: f32,
-  whirl: f32,
-  fisheye: f32,
-  pixelate: f32,
-  mosaic: f32,
-  brightness: f32,
-  ghost: f32
+  skinID: f32;
+  position: vec2<f32>;
+  direction: f32;
+  scale: vec2<f32>;
+  color: f32;
+  whirl: f32;
+  fisheye: f32;
+  pixelate: f32;
+  mosaic: f32;
+  brightness: f32;
+  ghost: f32;
+  offset: vec3<f32>;
 };
 [[binding(0), group(0)]] var<uniform> uniforms: Uniforms;
 
@@ -25,7 +26,7 @@ fn vs_main(
   [[location(1)]] tex_coords: vec2<f32>
 ) -> VertexOutput {
   var out: VertexOutput;
-  out.pos = vec4<f32>(pos + uniforms.position, 1.0);
+  out.pos = vec4<f32>(pos, 1.0, 1.0);
   out.tex_coords = tex_coords;
   return out;
 }

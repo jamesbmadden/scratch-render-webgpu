@@ -1,5 +1,5 @@
 import newRender from '../RenderWebGPU.js';
-import { DrawableProperties } from '../types';
+import { DrawablePropertiesPart } from '../types';
 
 const canvas: HTMLCanvasElement = document.querySelector('canvas#scratch-stage') || document.createElement('canvas');
 let fudge = 90;
@@ -78,7 +78,7 @@ fudgeInput.dispatchEvent(new CustomEvent('init'));
 
 const handleFudgeChanged = function (event: any) {
     fudge = event.target.valueAsNumber;
-    const props: DrawableProperties = {};
+    const props: DrawablePropertiesPart = {};
     switch (fudgeProperty) {
     case 'posx':
         props.position = [fudge, posY];

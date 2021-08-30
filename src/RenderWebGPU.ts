@@ -1,4 +1,4 @@
-import { DrawableProperties } from './types';
+import { DrawablePropertiesPart } from './types.js';
 import Drawable from './Drawable.js';
 import BitmapSkin from './BitmapSkin.js';
 
@@ -64,7 +64,7 @@ export class RenderWebGPU {
   /**
    * update the properties of a drawable
    */
-  updateDrawableProperties (drawableID: number, properties: DrawableProperties) {
+  updateDrawableProperties (drawableID: number, properties: DrawablePropertiesPart) {
     Object.assign(this.drawables[drawableID].properties, properties);
     console.log(this.drawables[drawableID].properties);
     this.drawables[drawableID]._buildPipeline(this);
@@ -90,16 +90,37 @@ export class RenderWebGPU {
       }]
     });
 
+    this.drawables.forEach((sprite: Drawable) => {
+
+      // make sure all the required properties are there
+      if (sprite.pipeline && sprite.bindGroup && sprite.vertexBuffer) {
+
+        // update the uniforms for the sprite
+        sprite.writeToUniforms(this);
+
+        // attach and render out the sprite
+        renderPass.setPipeline(sprite.pipeline);
+        renderPass.setBindGroup(0, sprite.bindGroup);
+        renderPass.setVertexBuffer(0, sprite.vertexBuffer);
+        renderPass.draw(6, 1);
+
+      }
+
+    });
+
     // and end it
     renderPass.endPass();
     this._device.queue.submit([commandEncoder.finish()]);
+    
+    // draw all the drawables now
+    //this.draw_drawables(this.drawables);
 
   }
 
   /**
    * Does draws after the initial, drawing on top
    */
-  draw_drawables (drawables: Drawable[]) {
+  /*draw_drawables (drawables: Drawable[]) {
 
     const view = this._surface?.getCurrentTexture().createView();
 
@@ -116,15 +137,29 @@ export class RenderWebGPU {
       }]
     });
 
-    for (let sprite in drawables) {
+    drawables.forEach((sprite: Drawable) => {
 
-    }
+      // make sure all the required properties are there
+      if (sprite.pipeline && sprite.bindGroup && sprite.vertexBuffer) {
+
+        // update the uniforms for the sprite
+        sprite.writeToUniforms(this);
+
+        // attach and render out the sprite
+        renderPass.setPipeline(sprite.pipeline);
+        renderPass.setBindGroup(0, sprite.bindGroup);
+        renderPass.setVertexBuffer(0, sprite.vertexBuffer);
+        renderPass.draw(6, 1);
+
+      }
+
+    });
 
     // and end it
     renderPass.endPass();
     this._device.queue.submit([commandEncoder.finish()]);
 
-  }
+  }*/
 
 }
 
