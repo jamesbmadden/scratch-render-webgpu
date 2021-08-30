@@ -5,7 +5,7 @@ Scratch Render WebGPU is an experimental alternative to the official Scratch-Ren
 ### Current Limitations
 Many features from Scratch-Render are currently missing. Enough functions are implemented to run the playground decently, but it is very unlikely it would be able to work with the full Scratch-GUI in its current state. On top of that, there are several limitations to the type of things it can render, including:
 - Only Bitmap sprites are supported
-- Only position, scale, brightness, and ghost properties are implemented
+- Only position, scale, brightness, ghost, and mosaic properties are implemented
 
 ### Running and Building
 

@@ -61,6 +61,9 @@ export default class Drawable {
     if (this.texture === undefined) throw "Failed to get texture";
     // Create a sampler with linear filtering for smooth interpolation.
     const sampler = renderer._device.createSampler({
+      addressModeU: 'repeat',
+      addressModeV: 'repeat',
+      addressModeW: 'repeat',
       magFilter: 'linear',
       minFilter: 'linear',
     });
@@ -69,8 +72,6 @@ export default class Drawable {
     const vertices: Float32Array = (this.properties.skinId !== -1) ? 
       genVertices(renderer.skins[this.properties.skinId].width, renderer.skins[this.properties.skinId].height) :
       fullscreenVertices;
-    
-    console.log(vertices);
 
     // create the vertex buffer
     this.vertexBuffer = renderer._device.createBuffer({
