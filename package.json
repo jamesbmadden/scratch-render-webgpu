@@ -5,12 +5,14 @@
   "main": "build/RenderWebGPU.js",
   "module": "src/RenderWebGPU.ts",
   "scripts": {
-    "start": "tsc --watch"
+    "start": "tsc --watch",
+    "deploy": "gh-pages -d build"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "@webgpu/types": "^0.1.6",
+    "gh-pages": "^3.2.3",
     "typescript": "^4.4.2"
   }
 }
