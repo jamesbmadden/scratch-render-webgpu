@@ -1,7 +1,3 @@
 node_modules
-build/RenderWebGPU.js
-build/Drawable.js
-build/BitmapSkin.js
-build/shaders.wgsl.js
-build.types.js
+build/*.js
 build/playground/playground.js
