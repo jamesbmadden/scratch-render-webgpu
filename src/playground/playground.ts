@@ -8,7 +8,7 @@ renderer.setLayerGroupOrdering(['group1']);
 
 const drawableID = renderer.createDrawable('group1');
 renderer.updateDrawableProperties(drawableID, {
-    position: [0, 0],
+    position: [90, 60],
     scale: [100, 100],
     direction: 90
 });
@@ -34,6 +34,19 @@ image.addEventListener('load', async () => {
 });
 image.crossOrigin = 'anonymous';
 image.src = 'https://cdn.assets.scratch.mit.edu/internalapi/asset/7e24c99c1b853e52f8e7f9004416fa34.png/get/';
+
+// Bitmap (lion)
+const image2 = new Image();
+image2.addEventListener('load', async () => {
+    const bitmapSkinId = await renderer.createBitmapSkin(image2);
+    if (wantedSkin === WantedSkinType.bitmap) {
+        renderer.updateDrawableProperties(drawableID, {
+            skinId: bitmapSkinId
+        });
+    }
+});
+image2.crossOrigin = 'anonymous';
+image2.src = 'https://images.unsplash.com/photo-1619347740259-834d6c7ec383?ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDJ8Ym84alFLVGFFMFl8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60';
 
 let posX = 0;
 let posY = 0;
