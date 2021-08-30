@@ -139,7 +139,17 @@ export default class Drawable {
         module: shaderModule,
         entryPoint: 'fs_main',
         targets: [{
-          format: renderer._format
+          format: renderer._format,
+          blend: {
+            alpha: {
+              srcFactor: 'one',
+              dstFactor: 'one-minus-src-alpha',
+           },
+           color: {
+              srcFactor: 'src-alpha',
+              dstFactor: 'one-minus-src-alpha',
+           },
+          }
         }]
       }
     });
