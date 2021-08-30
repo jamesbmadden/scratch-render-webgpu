@@ -29,6 +29,20 @@ export class RenderWebGPU {
      * @TODO resize the canvas
      */
     resize(width, height) {
+        // no surface? no problem
+        if (this._surface === null)
+            return;
+        // update the canvas size and reconfig the surface, then rerender
+        this._surface.canvas.width = width;
+        this._surface.canvas.height = height;
+        // if device isn't there we can't reconfigure
+        if (this._device === undefined)
+            return;
+        this._surface.configure({
+            device: this._device,
+            format: this._format,
+            size: [width, height]
+        });
     }
     /**
      * Create a new bitmapSkin that can be attached to a drawable
