@@ -65,7 +65,7 @@ fn apply_brightness(colour: vec4<f32>, brightness: f32) -> vec4<f32> {
   return vec4<f32>(clamp(colour.x + brightness, 0.0, 1.0), clamp(colour.y + brightness, 0.0, 1.0), clamp(colour.z + brightness, 0.0, 1.0), colour.w);
 }
 fn apply_ghost(colour: vec4<f32>, ghost: f32) -> vec4<f32> {
-  var alpha: f32 = 1.0 - clamp(ghost / 100.0, 0.0, colour.w);
+  var alpha: f32 = colour.w * (1.0 - clamp(ghost / 100.0, 0.0, 1.0));
   return vec4<f32>(colour.xyz, alpha);
 }
 
