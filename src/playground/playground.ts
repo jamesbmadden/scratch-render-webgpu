@@ -1,6 +1,11 @@
 import newRender from '../RenderWebGPU.js';
 import { DrawablePropertiesPart } from '../types';
 
+// check if WebGPU is supported
+if (!navigator.gpu) {
+    alert('WebGPU is not supported in your browser. This page will not work.');
+}
+
 const canvas: HTMLCanvasElement = document.querySelector('canvas#scratch-stage') || document.createElement('canvas');
 let fudge = 90;
 const renderer = await newRender(canvas);
