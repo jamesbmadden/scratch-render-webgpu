@@ -4,6 +4,8 @@ export default class BitmapSkin {
 
   texture: GPUTexture | undefined;
   id: number | undefined;
+  width: number = 0;
+  height: number = 0;
 
   /**
    * static method to create a new instance of a bitmap skin
@@ -23,6 +25,9 @@ export default class BitmapSkin {
         format: 'rgba8unorm',
         usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT
       });
+
+      instance.width = imgBitmap.width;
+      instance.height = imgBitmap.height;
 
       // if we failed to create a texture, throw
       if (instance.texture === undefined) throw "Failed to create texture";

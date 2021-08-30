@@ -2,7 +2,7 @@ import BitmapSkin from "./BitmapSkin.js";
 import { DrawableProperties } from "./types.js";
 import { RenderWebGPU } from "./RenderWebGPU.js";
 import shaderSource from "./shaders.wgsl.js";
-import vertices from "./vertices.js";
+import genVertices, { fullscreenVertices } from "./vertices.js";
 
 export default class Drawable {
 
@@ -48,16 +48,6 @@ export default class Drawable {
     // create shader module
     const shaderModule = renderer._device.createShaderModule({ code: shaderSource });
 
-    // create the vertex buffer
-    this.vertexBuffer = renderer._device.createBuffer({
-      size: vertices.byteLength,
-      usage: GPUBufferUsage.VERTEX,
-      mappedAtCreation: true
-    });
-
-    new Float32Array(this.vertexBuffer.getMappedRange()).set(vertices);
-    this.vertexBuffer.unmap();
-
     // find the texture - if one's set, use it, otherwise make a blank one
     if (this.properties.skinId !== -1) {
       this.texture = renderer.skins[this.properties.skinId]?.texture;
@@ -74,6 +64,23 @@ export default class Drawable {
       magFilter: 'linear',
       minFilter: 'linear',
     });
+
+    // lets generate the vertices - if we are using a texture, get its dimensions. Otherwise, no vertices needed
+    const vertices: Float32Array = (this.properties.skinId !== -1) ? 
+      genVertices(renderer.skins[this.properties.skinId].width, renderer.skins[this.properties.skinId].height) :
+      fullscreenVertices;
+    
+    console.log(vertices);
+
+    // create the vertex buffer
+    this.vertexBuffer = renderer._device.createBuffer({
+      size: vertices.byteLength,
+      usage: GPUBufferUsage.VERTEX,
+      mappedAtCreation: true
+    });
+
+    new Float32Array(this.vertexBuffer.getMappedRange()).set(vertices);
+    this.vertexBuffer.unmap();
 
     // make the uniform buffer
     this.uniformBuffer = renderer._device.createBuffer({
