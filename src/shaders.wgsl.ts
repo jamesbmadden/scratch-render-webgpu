@@ -32,15 +32,23 @@ struct Uniforms {
 };
 [[binding(0), group(0)]] var<uniform> uniforms: Uniforms;
 
+// functions to apply different transformation types
+fn apply_scale(pos: vec2<f32>, scaleX: f32, scaleY: f32) -> vec2<f32> {
+  return vec2<f32>(pos.x * scaleX, pos.y * scaleY);
+}
+
+fn apply_translate(pos: vec2<f32>, translateX: f32, translateY: f32) -> vec2<f32> {
+  return vec2<f32>(pos.x + translateX, pos.y + translateY);
+}
+
 [[stage(vertex)]]
 fn vs_main(
   [[location(0)]] pos: vec2<f32>,
   [[location(1)]] tex_coords: vec2<f32>
 ) -> VertexOutput {
   var out: VertexOutput;
-  var posX = uniforms.data[0].y / 480.0;
-  var posY = uniforms.data[1].z / 360.0;
-  out.pos = vec4<f32>(pos.x + posX, pos.y + posY, 1.0, 1.0);
+  //                                              SCALE                                                         TRANSLATE
+  out.pos = vec4<f32>(apply_translate(apply_scale(pos, uniforms.data[1].x / 100.0, uniforms.data[1].y / 100.0), uniforms.data[0].y / 240.0, uniforms.data[0].z / 180.0), 1.0, 1.0);
   out.tex_coords = tex_coords;
   return out;
 }

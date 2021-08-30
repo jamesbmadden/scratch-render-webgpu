@@ -23,7 +23,7 @@ export default class Drawable {
       skinId: -1,
       position: [0, 0],
       direction: 0,
-      scale: [1, 1],
+      scale: [100, 100],
       color: 0,
       whirl: 0,
       fisheye: 0,
