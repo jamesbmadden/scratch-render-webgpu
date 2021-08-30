@@ -3,6 +3,7 @@ const shaderSource = `struct VertexOutput {
   [[location(0)]] tex_coords: vec2<f32>;
   [[location(1)]] brightness: f32;
   [[location(2)]] ghost: f32;
+  [[location(3)]] mosaic: f32;
 };
 
 /*
@@ -54,6 +55,7 @@ fn vs_main(
   out.tex_coords = tex_coords;
   out.brightness = uniforms.data[2].w;
   out.ghost = uniforms.data[3].x;
+  out.mosaic = uniforms.data[2].z;
   return out;
 }
 
@@ -68,9 +70,13 @@ fn apply_ghost(colour: vec4<f32>, ghost: f32) -> vec4<f32> {
   var alpha: f32 = colour.w * (1.0 - clamp(ghost / 100.0, 0.0, 1.0));
   return vec4<f32>(colour.xyz, alpha);
 }
+fn apply_mosaic(tex_coords: vec2<f32>, mosaic: f32) -> vec2<f32> {
+  var scale_factor: f32 = max(floor((mosaic - 5.0) / 10.0), 1.0);
+  return tex_coords * scale_factor;
+}
 
 [[stage(fragment)]]
 fn fs_main(in: VertexOutput) -> [[location(0)]] vec4<f32> {
-  return apply_ghost(apply_brightness(textureSample(texture, tex_sampler, in.tex_coords), (in.brightness / 100.0)), in.ghost);
+  return apply_ghost(apply_brightness(textureSample(texture, tex_sampler, apply_mosaic(in.tex_coords, in.mosaic)), (in.brightness / 100.0)), in.ghost);
 }`;
 export default shaderSource;
