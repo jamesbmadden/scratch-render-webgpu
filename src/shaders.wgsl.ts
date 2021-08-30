@@ -3,20 +3,32 @@ const shaderSource = `struct VertexOutput {
   [[location(0)]] tex_coords: vec2<f32>;
 };
 
+/*
+WHERE DATA CAN BE FOUND IN THE UNIFORM:
+[0]
+  x: skinID
+  y: position[x]
+  z: position[y]
+  w: direction
+[1]
+  x: scaleX
+  y: scaleY
+  z: color
+  w: whirl
+[2]
+  x: fisheye
+  y: pixelate
+  z: mosaic
+  w: brightness
+[3]
+  x: ghost
+  y: unused
+  z: unused
+  w: unused
+*/
 [[block]]
 struct Uniforms {
-  skinID: f32;
-  position: vec2<f32>;
-  direction: f32;
-  scale: vec2<f32>;
-  color: f32;
-  whirl: f32;
-  fisheye: f32;
-  pixelate: f32;
-  mosaic: f32;
-  brightness: f32;
-  ghost: f32;
-  offset: vec3<f32>;
+  data: mat4x4<f32>;
 };
 [[binding(0), group(0)]] var<uniform> uniforms: Uniforms;
 
@@ -26,7 +38,9 @@ fn vs_main(
   [[location(1)]] tex_coords: vec2<f32>
 ) -> VertexOutput {
   var out: VertexOutput;
-  out.pos = vec4<f32>(pos, 1.0, 1.0);
+  var posX = uniforms.data[0].y / 480.0;
+  var posY = uniforms.data[1].z / 360.0;
+  out.pos = vec4<f32>(pos.x + posX, pos.y + posY, 1.0, 1.0);
   out.tex_coords = tex_coords;
   return out;
 }

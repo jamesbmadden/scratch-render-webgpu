@@ -42,7 +42,7 @@ let scaleY = 100;
 let fudgeProperty = 'posx';
 
 const fudgeInput: HTMLInputElement = document.querySelector('input#fudge') || document.createElement('input');
-const fudgePropertyInput: HTMLInputElement = document.querySelector('input#fudgeproperty') || document.createElement('input');
+const fudgePropertyInput: HTMLSelectElement = document.querySelector('select#fudgeproperty') || document.createElement('select');
 const fudgeMinInput: HTMLInputElement = document.querySelector('input#fudgeMin') || document.createElement('input');
 const fudgeMaxInput: HTMLInputElement = document.querySelector('input#fudgeMax') || document.createElement('input');
 

@@ -66,7 +66,6 @@ export class RenderWebGPU {
    */
   updateDrawableProperties (drawableID: number, properties: DrawablePropertiesPart) {
     Object.assign(this.drawables[drawableID].properties, properties);
-    console.log(this.drawables[drawableID].properties);
     this.drawables[drawableID]._buildPipeline(this);
   }
 
