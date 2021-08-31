@@ -137,6 +137,12 @@ export class RenderWebGPU {
       this.updateDrawableProperties(drawableID, { ghost: 100 });
     }
   }
+  updateDrawableEffect (drawableID: number, effectName: string, value: number) {
+    // simply a wrapper over updateDrawableProperties
+    const newProperties: any = {};
+    newProperties[effectName] = value;
+    this.updateDrawableProperties(drawableID, newProperties);
+  }
   updateDrawableSkinId (drawableID: number, skinId: number) {
     // simply a wrapper over updateDrawableProperties
     this.updateDrawableProperties(drawableID, { skinId });
