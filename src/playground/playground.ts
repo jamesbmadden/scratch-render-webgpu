@@ -25,10 +25,10 @@ const WantedSkinType = {
 };
 
 const drawableID2 = renderer.createDrawable('group1');
-const wantedSkin = WantedSkinType.bitmap;
+const wantedSkin = WantedSkinType.vector;
 
 // Bitmap (squirrel)
-const image = new Image();
+/*const image = new Image();
 image.addEventListener('load', async () => {
     const bitmapSkinId = await renderer.createBitmapSkin(image);
     if (wantedSkin === WantedSkinType.bitmap) {
@@ -38,7 +38,20 @@ image.addEventListener('load', async () => {
     }
 });
 image.crossOrigin = 'anonymous';
-image.src = 'https://cdn.assets.scratch.mit.edu/internalapi/asset/7e24c99c1b853e52f8e7f9004416fa34.png/get/';
+image.src = 'https://cdn.assets.scratch.mit.edu/internalapi/asset/7e24c99c1b853e52f8e7f9004416fa34.png/get/';*/
+
+// SVG (cat 1-a)
+const xhr = new XMLHttpRequest();
+xhr.addEventListener('load', async () => {
+    const skinId = await renderer.createSVGSkin(xhr.responseText);
+    if (wantedSkin === WantedSkinType.vector) {
+        renderer.updateDrawableProperties(drawableID2, {
+            skinId: skinId
+        });
+    }
+});
+xhr.open('GET', 'https://cdn.assets.scratch.mit.edu/internalapi/asset/b7853f557e4426412e64bb3da6531a99.svg/get/');
+xhr.send();
 
 let posX = 0;
 let posY = 0;
