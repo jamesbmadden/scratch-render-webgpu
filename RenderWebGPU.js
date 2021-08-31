@@ -57,9 +57,20 @@ export class RenderWebGPU {
         // create an image element to feed to BitmapSkin
         const img = document.createElement('img');
         img.src = `data:image/svg+xml;base64,${btoa(svg)}`;
-        img.width = 720;
-        console.log(img.src);
         return await this.createBitmapSkin(img);
+    }
+    /**
+     * Get the size of a skin
+     */
+    getSkinSize(skinID) {
+        if (!this.skins[skinID]) {
+            // skin doesn't yet exist, return 0
+            return [0, 0];
+        }
+        else {
+            // skin exists, return the size
+            return [this.skins[skinID].width, this.skins[skinID].height];
+        }
     }
     /**
      * update the properties of a drawable
@@ -67,6 +78,38 @@ export class RenderWebGPU {
     updateDrawableProperties(drawableID, properties) {
         Object.assign(this.drawables[drawableID].properties, properties);
         this.drawables[drawableID]._buildPipeline(this);
+    }
+    /**
+     * wrappers over updateDrawableProperties
+     */
+    updateDrawablePosition(drawableID, position) {
+        // simply a wrapper over updateDrawableProperties
+        this.updateDrawableProperties(drawableID, { position });
+    }
+    updateDrawableDirection(drawableID, direction) {
+        // simply a wrapper over updateDrawableProperties
+        this.updateDrawableProperties(drawableID, { direction });
+    }
+    updateDrawableScale(drawableID, scale) {
+        // simply a wrapper over updateDrawableProperties
+        this.updateDrawableProperties(drawableID, { scale });
+    }
+    updateDrawableDirectionScale(drawableID, direction, scale) {
+        // simply a wrapper over updateDrawableProperties
+        this.updateDrawableProperties(drawableID, { direction, scale });
+    }
+    updateDrawableVisible(drawableID, visible) {
+        // just use ghost as a quick and dirty implementation
+        if (visible) {
+            this.updateDrawableProperties(drawableID, { ghost: 0 });
+        }
+        else {
+            this.updateDrawableProperties(drawableID, { ghost: 100 });
+        }
+    }
+    updateDrawableSkinId(drawableID, skinId) {
+        // simply a wrapper over updateDrawableProperties
+        this.updateDrawableProperties(drawableID, { skinId });
     }
     /**
      * Does an initial draw that includes clearing the canvas.

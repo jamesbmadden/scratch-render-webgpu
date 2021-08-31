@@ -12,7 +12,9 @@ export default class BitmapSkin {
         const instance = new BitmapSkin();
         instance.id = id;
         {
-            await img.decode();
+            if (img.nodeName === 'IMG') {
+                await img.decode();
+            }
             // read the image input as a bitmap
             const imgBitmap = await createImageBitmap(img);
             // create a new texture
