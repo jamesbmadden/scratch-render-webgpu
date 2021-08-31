@@ -77,6 +77,18 @@ export class RenderWebGPU {
 
   }
 
+  async createSVGSkin (svg: string): Promise<number> {
+
+    // create an image element to feed to BitmapSkin
+    const img = document.createElement('img');
+    img.src = `data:image/svg+xml;base64,${btoa(svg)}`;
+    img.width = 720;
+    console.log(img.src);
+
+    return await this.createBitmapSkin(img);
+
+  }
+
   /**
    * update the properties of a drawable
    */
