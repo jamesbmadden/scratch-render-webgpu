@@ -88,11 +88,58 @@ export class RenderWebGPU {
   }
 
   /**
+   * Get the size of a skin
+   */
+  getSkinSize (skinID: number): Array<number> {
+  
+    if (!this.skins[skinID]) {
+      // skin doesn't yet exist, return 0
+      return [ 0, 0 ];
+    } else {
+      // skin exists, return the size
+      return [ this.skins[skinID].width, this.skins[skinID].height ];
+    }
+
+  }
+
+  /**
    * update the properties of a drawable
    */
   updateDrawableProperties (drawableID: number, properties: DrawablePropertiesPart) {
     Object.assign(this.drawables[drawableID].properties, properties);
     this.drawables[drawableID]._buildPipeline(this);
+  }
+
+  /**
+   * wrappers over updateDrawableProperties
+   */
+  updateDrawablePosition (drawableID: number, position: [number, number]) {
+    // simply a wrapper over updateDrawableProperties
+    this.updateDrawableProperties(drawableID, { position });
+  }
+  updateDrawableDirection (drawableID: number, direction: number) {
+    // simply a wrapper over updateDrawableProperties
+    this.updateDrawableProperties(drawableID, { direction });
+  }
+  updateDrawableScale (drawableID: number, scale: [number, number]) {
+    // simply a wrapper over updateDrawableProperties
+    this.updateDrawableProperties(drawableID, { scale });
+  }
+  updateDrawableDirectionScale (drawableID: number, direction: number, scale: [number, number]) {
+    // simply a wrapper over updateDrawableProperties
+    this.updateDrawableProperties(drawableID, { direction, scale });
+  }
+  updateDrawableVisible (drawableID: number, visible: boolean) {
+    // just use ghost as a quick and dirty implementation
+    if (visible) {
+      this.updateDrawableProperties(drawableID, { ghost: 0 });
+    } else {
+      this.updateDrawableProperties(drawableID, { ghost: 100 });
+    }
+  }
+  updateDrawableSkinId (drawableID: number, skinId: number) {
+    // simply a wrapper over updateDrawableProperties
+    this.updateDrawableProperties(drawableID, { skinId });
   }
 
   /**
