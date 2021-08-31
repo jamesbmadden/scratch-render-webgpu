@@ -82,7 +82,6 @@ export class RenderWebGPU {
     // create an image element to feed to BitmapSkin
     const img = document.createElement('img');
     img.src = `data:image/svg+xml;base64,${btoa(svg)}`;
-    img.width = 720;
     console.log(img.src);
 
     return await this.createBitmapSkin(img);
