@@ -10,13 +10,15 @@ export default class BitmapSkin {
   /**
    * static method to create a new instance of a bitmap skin
    */
-  static async create (img: HTMLImageElement, id: number, renderer: RenderWebGPU): Promise<BitmapSkin> {
+  static async create (img: HTMLImageElement | HTMLCanvasElement, id: number, renderer: RenderWebGPU): Promise<BitmapSkin> {
 
     // create a new BitmapSkin
     const instance = new BitmapSkin();
     instance.id = id;
     {
-      await img.decode();
+      if (img.nodeName === 'IMG') {
+        await img.decode();
+      }
       // read the image input as a bitmap
       const imgBitmap = await createImageBitmap(img);
 

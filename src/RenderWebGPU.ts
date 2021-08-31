@@ -67,7 +67,7 @@ export class RenderWebGPU {
   /**
    * Create a new bitmapSkin that can be attached to a drawable
    */
-  async createBitmapSkin (img: HTMLImageElement): Promise<number> {
+  async createBitmapSkin (img: HTMLImageElement | HTMLCanvasElement): Promise<number> {
 
     const bitmapID = this.skins.length;
     const newBitmapSkin = await BitmapSkin.create(img, bitmapID, this);
