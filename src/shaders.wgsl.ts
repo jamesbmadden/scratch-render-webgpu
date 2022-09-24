@@ -65,7 +65,7 @@ fn vs_main(
 @binding(1)
 var tex_sampler: sampler;
 @group(0)
-@binding(1)
+@binding(2)
 var texture: texture_2d<f32>;
 
 // functions to apply different COLOUR transformation types
