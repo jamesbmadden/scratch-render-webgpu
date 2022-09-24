@@ -29,7 +29,7 @@ WHERE DATA CAN BE FOUND IN THE UNIFORM:
   z: unused
   w: unused
 */
-[[block]]
+
 struct Uniforms {
   data: mat4x4<f32>
 };
