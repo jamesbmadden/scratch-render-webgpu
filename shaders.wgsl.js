@@ -1,9 +1,9 @@
 const shaderSource = `struct VertexOutput {
-  [[builtin(position)]] pos: vec4<f32>;
-  [[location(0)]] tex_coords: vec2<f32>;
-  [[location(1)]] brightness: f32;
-  [[location(2)]] ghost: f32;
-  [[location(3)]] mosaic: f32;
+  @builtin(position) pos: vec4<f32>,
+  @location(0) tex_coords: vec2<f32>,
+  @location(1) brightness: f32,
+  @location(2) ghost: f32,
+  @location(3) mosaic: f32
 };
 
 /*
@@ -31,9 +31,11 @@ WHERE DATA CAN BE FOUND IN THE UNIFORM:
 */
 [[block]]
 struct Uniforms {
-  data: mat4x4<f32>;
+  data: mat4x4<f32>
 };
-[[binding(0), group(0)]] var<uniform> uniforms: Uniforms;
+@binding(0)
+@group(0)
+var<uniform> uniforms: Uniforms;
 
 // functions to apply different transformation types
 fn apply_scale(pos: vec2<f32>, scaleX: f32, scaleY: f32) -> vec2<f32> {
@@ -44,10 +46,10 @@ fn apply_translate(pos: vec2<f32>, translateX: f32, translateY: f32) -> vec2<f32
   return vec2<f32>(pos.x + translateX, pos.y + translateY);
 }
 
-[[stage(vertex)]]
+@vertex
 fn vs_main(
-  [[location(0)]] pos: vec2<f32>,
-  [[location(1)]] tex_coords: vec2<f32>
+  @location(0) pos: vec2<f32>,
+  @location(1) tex_coords: vec2<f32>
 ) -> VertexOutput {
   var out: VertexOutput;
   //                                              SCALE                                                         TRANSLATE
@@ -59,8 +61,12 @@ fn vs_main(
   return out;
 }
 
-[[group(0), binding(1)]] var tex_sampler: sampler;
-[[group(0), binding(2)]] var texture: texture_2d<f32>;
+@group(0)
+@binding(1)
+var tex_sampler: sampler;
+@group(0)
+@binding(1)
+var texture: texture_2d<f32>;
 
 // functions to apply different COLOUR transformation types
 fn apply_brightness(colour: vec4<f32>, brightness: f32) -> vec4<f32> {
@@ -75,8 +81,8 @@ fn apply_mosaic(tex_coords: vec2<f32>, mosaic: f32) -> vec2<f32> {
   return tex_coords * scale_factor;
 }
 
-[[stage(fragment)]]
-fn fs_main(in: VertexOutput) -> [[location(0)]] vec4<f32> {
+@fragment
+fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
   return apply_ghost(apply_brightness(textureSample(texture, tex_sampler, apply_mosaic(in.tex_coords, in.mosaic)), (in.brightness / 100.0)), in.ghost);
 }`;
 export default shaderSource;

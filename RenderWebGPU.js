@@ -40,8 +40,7 @@ export class RenderWebGPU {
             return;
         this._surface.configure({
             device: this._device,
-            format: this._format,
-            size: [width, height]
+            format: this._format
         });
     }
     /**
@@ -107,6 +106,12 @@ export class RenderWebGPU {
             this.updateDrawableProperties(drawableID, { ghost: 100 });
         }
     }
+    updateDrawableEffect(drawableID, effectName, value) {
+        // simply a wrapper over updateDrawableProperties
+        const newProperties = {};
+        newProperties[effectName] = value;
+        this.updateDrawableProperties(drawableID, newProperties);
+    }
     updateDrawableSkinId(drawableID, skinId) {
         // simply a wrapper over updateDrawableProperties
         this.updateDrawableProperties(drawableID, { skinId });
@@ -126,7 +131,8 @@ export class RenderWebGPU {
         const renderPass = commandEncoder.beginRenderPass({
             colorAttachments: [{
                     view,
-                    loadValue: { r: 1, g: 1, b: 1, a: 1 },
+                    clearValue: { r: 1, g: 1, b: 1, a: 1 },
+                    loadOp: 'clear',
                     storeOp: 'store'
                 }]
         });
@@ -143,7 +149,7 @@ export class RenderWebGPU {
             }
         });
         // and end it
-        renderPass.endPass();
+        renderPass.end();
         this._device.queue.submit([commandEncoder.finish()]);
     }
 }
@@ -161,7 +167,7 @@ export default async function newRender(canvas) {
         throw "Failed to create a device";
     if (instance._surface === null)
         throw "Failed to create a surface";
-    instance._format = instance._surface.getPreferredFormat(instance._adapter);
+    instance._format = navigator.gpu.getPreferredCanvasFormat();
     // configure the surface
     (_b = instance._surface) === null || _b === void 0 ? void 0 : _b.configure({
         device: instance._device,
