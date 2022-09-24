@@ -58,8 +58,7 @@ export class RenderWebGPU {
 
     this._surface.configure({
       device: this._device,
-      format: this._format,
-      size: [ width, height ]
+      format: this._format
     });
 
   }
@@ -163,7 +162,8 @@ export class RenderWebGPU {
     const renderPass = commandEncoder.beginRenderPass({
       colorAttachments: [{
         view,
-        loadValue: { r: 1, g: 1, b: 1, a: 1 },
+        clearValue: { r: 1, g: 1, b: 1, a: 1 },
+        loadOp: 'clear',
         storeOp: 'store'
       }]
     });
@@ -187,7 +187,7 @@ export class RenderWebGPU {
     });
 
     // and end it
-    renderPass.endPass();
+    renderPass.end();
     this._device.queue.submit([commandEncoder.finish()]);
 
   }
@@ -208,7 +208,7 @@ export default async function newRender (canvas: HTMLCanvasElement): Promise<Ren
   if (instance._device === undefined) throw "Failed to create a device";
   if (instance._surface === null) throw "Failed to create a surface";
 
-  instance._format = instance._surface.getPreferredFormat(instance._adapter);
+  instance._format = navigator.gpu.getPreferredCanvasFormat();
 
   // configure the surface
   instance._surface?.configure({
