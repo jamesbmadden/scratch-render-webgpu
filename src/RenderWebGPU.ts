@@ -27,7 +27,7 @@ export class RenderWebGPU {
     const drawableID = this.drawables.length;
     const newDrawable = new Drawable(drawableID, this);
     this.drawables[drawableID] = newDrawable;
-    /** @TODO Drawlist shit */
+    /** @TODO Drawlist stuff */
     console.log(group);
 
     return drawableID;
